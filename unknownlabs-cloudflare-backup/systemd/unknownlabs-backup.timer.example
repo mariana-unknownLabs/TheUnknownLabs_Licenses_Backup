@@ -1,0 +1,12 @@
+# Example of the current timer; 03:00 Europe/Luxembourg each day.
+[Unit]
+Description=Nightly Unknown Labs Cloudflare KV Backup
+
+[Timer]
+OnCalendar=*-*-* 03:00:00 Europe/Luxembourg
+Persistent=true
+AccuracySec=1min
+Unit=unknownlabs-backup.service
+
+[Install]
+WantedBy=timers.target

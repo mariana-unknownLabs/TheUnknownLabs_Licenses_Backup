@@ -1,0 +1,25 @@
+# Example of the EFFECTIVE current service configuration.
+# Do not commit a real Account ID or any API token.
+# On the Raspberry Pi, the original service uses a drop-in override;
+# this file combines the base unit and its effective override.
+[Unit]
+Description=Unknown Labs Cloudflare KV Backup
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=cloudadmin
+Group=cloudadmin
+WorkingDirectory=/home/cloudadmin/unknownlabs-backup
+Environment=CLOUDFLARE_ACCOUNT_ID=REPLACE_WITH_ACCOUNT_ID
+Environment=PYTHONUNBUFFERED=1
+LoadCredential=cloudflare_token:/etc/unknownlabs-backup/cloudflare_token
+ExecStart=/usr/bin/python3 /home/cloudadmin/unknownlabs-backup/nightly_backup.py
+UMask=0077
+TimeoutStartSec=2h
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/srv/unknownlabs-backups/automatic
+ProtectHome=read-only
+PrivateTmp=true
